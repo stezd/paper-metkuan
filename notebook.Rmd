@@ -1,0 +1,10 @@
+---
+title: "NoteBook Metkuan"
+output: html_notebook
+---
+
+## Import data
+
+```{r}
+df <- Extended_Employee_Performance_and_Productivity
+```
