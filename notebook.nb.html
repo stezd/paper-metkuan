@@ -1752,14 +1752,406 @@ display: none;
 
 
 <!-- rnb-text-begin -->
-<div id="import-data" class="section level2">
-<h2>Import data</h2>
+<div id="student-performance-metrics-dataset" class="section level1">
+<h1>Student Performance Metrics Dataset</h1>
+<div id="importing-library" class="section level3">
+<h3>Importing Library</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHViR2xpY21GeWVTaDBhV1I1ZG1WeWMyVXBYRzVzYVdKeVlYSjVLR3gxWW5KcFpHRjBaU2xjYm14cFluSmhjbmtvYzJ0cGJYSXBYRzVzYVdKeVlYSjVLR052Y25Kd2JHOTBLVnh1YkdsaWNtRnllU2hqWVhKbGRDbGNibXhwWW5KaGNua29jbUZ1Wkc5dFJtOXlaWE4wS1Z4dVlHQmdJbjA9IC0tPlxuXG5gYGByXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkobHVicmlkYXRlKVxubGlicmFyeShza2ltcilcbmxpYnJhcnkoY29ycnBsb3QpXG5saWJyYXJ5KGNhcmV0KVxubGlicmFyeShyYW5kb21Gb3Jlc3QpXG5gYGBcblxuPCEtLSBybmItc291cmNlLWVuZCAtLT5cbiJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkoc2tpbXIpXG5saWJyYXJ5KGNvcnJwbG90KVxubGlicmFyeShjYXJldClcbmxpYnJhcnkocmFuZG9tRm9yZXN0KVxuYGBgIn0= -->
+<pre class="r"><code>library(tidyverse)
+library(lubridate)
+library(skimr)
+library(corrplot)
+library(caret)
+library(randomForest)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="initiate-a-dataframe" class="section level3">
+<h3>Initiate a dataframe</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="data-exploration" class="section level3">
+<h3>Data Exploration</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVjM1J5S0dSbUtWeHVYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbnN0cihkZilcblxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGRmKVxuXG5gYGAifQ== -->
+<pre class="r"><code>str(df)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoic3BjX3RibF8gWzQ5MyDDlyAxNl0gKFMzOiBzcGVjX3RibF9kZi90YmxfZGYvdGJsL2RhdGEuZnJhbWUpXG4gJCBEZXBhcnRtZW50IDogY2hyIFsxOjQ5M10gXCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiIFwiQnVzaW5lc3MgQWRtaW5pc3RyYXRpb25cIiBcIkJ1c2luZXNzIEFkbWluaXN0cmF0aW9uXCIgXCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiIC4uLlxuICQgR2VuZGVyICAgICA6IGNociBbMTo0OTNdIFwiTWFsZVwiIFwiRmVtYWxlXCIgXCJNYWxlXCIgXCJNYWxlXCIgLi4uXG4gJCBIU0MgICAgICAgIDogbnVtIFsxOjQ5M10gNC4xNyA0LjkyIDUgNCAyLjE5IDQuNzUgNC40MiA0LjUgMy4zMiAzLjMzIC4uLlxuICQgU1NDICAgICAgICA6IG51bSBbMTo0OTNdIDQuODQgNSA0LjgzIDQuNSAzLjE3IDQuMDUgNSA0LjgxIDQuNSA0Ljk1IC4uLlxuICQgSW5jb21lICAgICA6IGNociBbMTo0OTNdIFwiTG93IChCZWxvdyAxNSwwMDApXCIgXCJVcHBlciBtaWRkbGUgKDMwLDAwMC01MCwwMDApXCIgXCJMb3dlciBtaWRkbGUgKDE1LDAwMC0zMCwwMDApXCIgXCJIaWdoIChBYm92ZSA1MCwwMDApXCIgLi4uXG4gJCBIb21ldG93biAgIDogY2hyIFsxOjQ5M10gXCJWaWxsYWdlXCIgXCJDaXR5XCIgXCJWaWxsYWdlXCIgXCJDaXR5XCIgLi4uXG4gJCBDb21wdXRlciAgIDogbnVtIFsxOjQ5M10gMyAzIDMgNSAzIDMgNCAzIDQgMyAuLi5cbiAkIFByZXBhcmF0aW9uOiBjaHIgWzE6NDkzXSBcIk1vcmUgdGhhbiAzIEhvdXJzXCIgXCIwLTEgSG91clwiIFwiMC0xIEhvdXJcIiBcIk1vcmUgdGhhbiAzIEhvdXJzXCIgLi4uXG4gJCBHYW1pbmcgICAgIDogY2hyIFsxOjQ5M10gXCIwLTEgSG91clwiIFwiMC0xIEhvdXJcIiBcIk1vcmUgdGhhbiAzIEhvdXJzXCIgXCJNb3JlIHRoYW4gMyBIb3Vyc1wiIC4uLlxuICQgQXR0ZW5kYW5jZSA6IGNociBbMTo0OTNdIFwiODAlLTEwMCVcIiBcIjgwJS0xMDAlXCIgXCI4MCUtMTAwJVwiIFwiODAlLTEwMCVcIiAuLi5cbiAkIEpvYiAgICAgICAgOiBjaHIgWzE6NDkzXSBcIk5vXCIgXCJOb1wiIFwiTm9cIiBcIk5vXCIgLi4uXG4gJCBFbmdsaXNoICAgIDogbnVtIFsxOjQ5M10gMyAzIDQgNSAzIDQgMiA0IDMgNCAuLi5cbiAkIEV4dHJhICAgICAgOiBjaHIgWzE6NDkzXSBcIlllc1wiIFwiWWVzXCIgXCJZZXNcIiBcIlllc1wiIC4uLlxuICQgU2VtZXN0ZXIgICA6IGNociBbMTo0OTNdIFwiNnRoXCIgXCI3dGhcIiBcIjNyZFwiIFwiNHRoXCIgLi4uXG4gJCBMYXN0ICAgICAgIDogbnVtIFsxOjQ5M10gMy4yMiAzLjQ3IDQgMy44IDMuOTQgLi4uXG4gJCBPdmVyYWxsICAgIDogbnVtIFsxOjQ5M10gMy4zNSAzLjQ3IDMuNzIgMy43NSAzLjk0IC4uLlxuIC0gYXR0cigqLCBcInNwZWNcIik9XG4gIC4uIGNvbHMoXG4gIC4uICAgRGVwYXJ0bWVudCA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgLi4gICBHZW5kZXIgPSBjb2xfY2hhcmFjdGVyKCksXG4gIC4uICAgSFNDID0gY29sX2RvdWJsZSgpLFxuICAuLiAgIFNTQyA9IGNvbF9kb3VibGUoKSxcbiAgLi4gICBJbmNvbWUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIC4uICAgSG9tZXRvd24gPSBjb2xfY2hhcmFjdGVyKCksXG4gIC4uICAgQ29tcHV0ZXIgPSBjb2xfZG91YmxlKCksXG4gIC4uICAgUHJlcGFyYXRpb24gPSBjb2xfY2hhcmFjdGVyKCksXG4gIC4uICAgR2FtaW5nID0gY29sX2NoYXJhY3RlcigpLFxuICAuLiAgIEF0dGVuZGFuY2UgPSBjb2xfY2hhcmFjdGVyKCksXG4gIC4uICAgSm9iID0gY29sX2NoYXJhY3RlcigpLFxuICAuLiAgIEVuZ2xpc2ggPSBjb2xfZG91YmxlKCksXG4gIC4uICAgRXh0cmEgPSBjb2xfY2hhcmFjdGVyKCksXG4gIC4uICAgU2VtZXN0ZXIgPSBjb2xfY2hhcmFjdGVyKCksXG4gIC4uICAgTGFzdCA9IGNvbF9kb3VibGUoKSxcbiAgLi4gICBPdmVyYWxsID0gY29sX2RvdWJsZSgpXG4gIC4uIClcbiAtIGF0dHIoKiwgXCJwcm9ibGVtc1wiKT08ZXh0ZXJuYWxwdHI+IFxuIn0= -->
+<pre><code>spc_tbl_ [493 × 16] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ Department : chr [1:493] &quot;Business Administration&quot; &quot;Business Administration&quot; &quot;Business Administration&quot; &quot;Business Administration&quot; ...
+ $ Gender     : chr [1:493] &quot;Male&quot; &quot;Female&quot; &quot;Male&quot; &quot;Male&quot; ...
+ $ HSC        : num [1:493] 4.17 4.92 5 4 2.19 4.75 4.42 4.5 3.32 3.33 ...
+ $ SSC        : num [1:493] 4.84 5 4.83 4.5 3.17 4.05 5 4.81 4.5 4.95 ...
+ $ Income     : chr [1:493] &quot;Low (Below 15,000)&quot; &quot;Upper middle (30,000-50,000)&quot; &quot;Lower middle (15,000-30,000)&quot; &quot;High (Above 50,000)&quot; ...
+ $ Hometown   : chr [1:493] &quot;Village&quot; &quot;City&quot; &quot;Village&quot; &quot;City&quot; ...
+ $ Computer   : num [1:493] 3 3 3 5 3 3 4 3 4 3 ...
+ $ Preparation: chr [1:493] &quot;More than 3 Hours&quot; &quot;0-1 Hour&quot; &quot;0-1 Hour&quot; &quot;More than 3 Hours&quot; ...
+ $ Gaming     : chr [1:493] &quot;0-1 Hour&quot; &quot;0-1 Hour&quot; &quot;More than 3 Hours&quot; &quot;More than 3 Hours&quot; ...
+ $ Attendance : chr [1:493] &quot;80%-100%&quot; &quot;80%-100%&quot; &quot;80%-100%&quot; &quot;80%-100%&quot; ...
+ $ Job        : chr [1:493] &quot;No&quot; &quot;No&quot; &quot;No&quot; &quot;No&quot; ...
+ $ English    : num [1:493] 3 3 4 5 3 4 2 4 3 4 ...
+ $ Extra      : chr [1:493] &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; &quot;Yes&quot; ...
+ $ Semester   : chr [1:493] &quot;6th&quot; &quot;7th&quot; &quot;3rd&quot; &quot;4th&quot; ...
+ $ Last       : num [1:493] 3.22 3.47 4 3.8 3.94 ...
+ $ Overall    : num [1:493] 3.35 3.47 3.72 3.75 3.94 ...
+ - attr(*, &quot;spec&quot;)=
+  .. cols(
+  ..   Department = col_character(),
+  ..   Gender = col_character(),
+  ..   HSC = col_double(),
+  ..   SSC = col_double(),
+  ..   Income = col_character(),
+  ..   Hometown = col_character(),
+  ..   Computer = col_double(),
+  ..   Preparation = col_character(),
+  ..   Gaming = col_character(),
+  ..   Attendance = col_character(),
+  ..   Job = col_character(),
+  ..   English = col_double(),
+  ..   Extra = col_character(),
+  ..   Semester = col_character(),
+  ..   Last = col_double(),
+  ..   Overall = col_double()
+  .. )
+ - attr(*, &quot;problems&quot;)=&lt;externalptr&gt; </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVjM1Z0YldGeWVTaGtaaWxjYmx4dVlHQmdJbjA9IC0tPlxuXG5gYGByXG5zdW1tYXJ5KGRmKVxuXG5gYGBcblxuPCEtLSBybmItc291cmNlLWVuZCAtLT5cbiJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShkZilcblxuYGBgIn0= -->
+<pre class="r"><code>summary(df)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICBEZXBhcnRtZW50ICAgICAgICAgICBHZW5kZXIgICAgICAgICAgICAgICBIU0MgICAgICAgICAgICAgU1NDICAgICAgIFxuIExlbmd0aDo0OTMgICAgICAgICBMZW5ndGg6NDkzICAgICAgICAgTWluLiAgIDoyLjE3MCAgIE1pbi4gICA6My4wMDAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICAgMXN0IFF1LjozLjgzMCAgIDFzdCBRdS46NC42ODAgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTWVkaWFuIDo0LjE3MCAgIE1lZGlhbiA6NC45NDAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTWVhbiAgIDo0LjE1NyAgIE1lYW4gICA6NC43NjggIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgM3JkIFF1Ljo0LjUwMCAgIDNyZCBRdS46NS4wMDAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTWF4LiAgIDo1LjAwMCAgIE1heC4gICA6NS4wMDAgIFxuICAgIEluY29tZSAgICAgICAgICAgIEhvbWV0b3duICAgICAgICAgICAgQ29tcHV0ZXIgICAgIFByZXBhcmF0aW9uICAgICAgIFxuIExlbmd0aDo0OTMgICAgICAgICBMZW5ndGg6NDkzICAgICAgICAgTWluLiAgIDoxLjAwMCAgIExlbmd0aDo0OTMgICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICAgMXN0IFF1LjozLjAwMCAgIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTWVkaWFuIDozLjAwMCAgIE1vZGUgIDpjaGFyYWN0ZXIgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTWVhbiAgIDozLjMzOSAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgM3JkIFF1Ljo0LjAwMCAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTWF4LiAgIDo1LjAwMCAgICAgICAgICAgICAgICAgICAgIFxuICAgIEdhbWluZyAgICAgICAgICAgQXR0ZW5kYW5jZSAgICAgICAgICAgIEpvYiAgICAgICAgICAgICAgIEVuZ2xpc2ggICAgXG4gTGVuZ3RoOjQ5MyAgICAgICAgIExlbmd0aDo0OTMgICAgICAgICBMZW5ndGg6NDkzICAgICAgICAgTWluLiAgIDoxLjAwICBcbiBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgICAxc3QgUXUuOjMuMDAgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgIE1lZGlhbiA6NC4wMCAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTWVhbiAgIDozLjU3ICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAzcmQgUXUuOjQuMDAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE1heC4gICA6NS4wMCAgXG4gICAgRXh0cmEgICAgICAgICAgICAgU2VtZXN0ZXIgICAgICAgICAgICAgIExhc3QgICAgICAgICAgT3ZlcmFsbCAgICAgXG4gTGVuZ3RoOjQ5MyAgICAgICAgIExlbmd0aDo0OTMgICAgICAgICBNaW4uICAgOjEuMDAwICAgTWluLiAgIDoxLjAwMCAgXG4gQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgICAxc3QgUXUuOjIuODEwICAgMXN0IFF1LjoyLjg4MCAgXG4gTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgICBNZWRpYW4gOjMuMjUwICAgTWVkaWFuIDozLjI3MCAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNZWFuICAgOjMuMTY0ICAgTWVhbiAgIDozLjE4OCAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAzcmQgUXUuOjMuNjcwICAgM3JkIFF1LjozLjY4MCAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNYXguICAgOjQuMDAwICAgTWF4LiAgIDo0LjAwMCAgXG4ifQ== -->
+<pre><code>  Department           Gender               HSC             SSC       
+ Length:493         Length:493         Min.   :2.170   Min.   :3.000  
+ Class :character   Class :character   1st Qu.:3.830   1st Qu.:4.680  
+ Mode  :character   Mode  :character   Median :4.170   Median :4.940  
+                                       Mean   :4.157   Mean   :4.768  
+                                       3rd Qu.:4.500   3rd Qu.:5.000  
+                                       Max.   :5.000   Max.   :5.000  
+    Income            Hometown            Computer     Preparation       
+ Length:493         Length:493         Min.   :1.000   Length:493        
+ Class :character   Class :character   1st Qu.:3.000   Class :character  
+ Mode  :character   Mode  :character   Median :3.000   Mode  :character  
+                                       Mean   :3.339                     
+                                       3rd Qu.:4.000                     
+                                       Max.   :5.000                     
+    Gaming           Attendance            Job               English    
+ Length:493         Length:493         Length:493         Min.   :1.00  
+ Class :character   Class :character   Class :character   1st Qu.:3.00  
+ Mode  :character   Mode  :character   Mode  :character   Median :4.00  
+                                                          Mean   :3.57  
+                                                          3rd Qu.:4.00  
+                                                          Max.   :5.00  
+    Extra             Semester              Last          Overall     
+ Length:493         Length:493         Min.   :1.000   Min.   :1.000  
+ Class :character   Class :character   1st Qu.:2.810   1st Qu.:2.880  
+ Mode  :character   Mode  :character   Median :3.250   Median :3.270  
+                                       Mean   :3.164   Mean   :3.188  
+                                       3rd Qu.:3.670   3rd Qu.:3.680  
+                                       Max.   :4.000   Max.   :4.000  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1mcmFtZS1iZWdpbiBleUp0WlhSaFpHRjBZU0k2ZXlKamJHRnpjMlZ6SWpwYkluUmliRjlrWmlJc0luUmliQ0lzSW1SaGRHRXVabkpoYldVaVhTd2libkp2ZHlJNk5pd2libU52YkNJNk1UWXNJbk4xYlcxaGNua2lPbnNpUVNCMGFXSmliR1VpT2xzaU5pRERseUF4TmlKZGZYMHNJbkprWmlJNklrZzBjMGxCUVVGQlFVRkJRVUp6TVZaNU1DOVZVVUpuWmpselZuVkRWM1ZzU2tZMFRXRlhTa2t4YzFKMVEyZFlhelYyU21WRVptaG5lRmRFUTFwa1owOTFPVll5Y0cxc2JrRlVNRmxNTlhvNVZIcG9lamhMVWxndlVYTTRaV1ppYVdoWlRXVlhTMlowVkVoa1lsRmpTMGRuTlU4d09EY3hLemg2TVcwMWNIWk9OVmN4UkRKd1dVRkJSbTFSZVRkTkx5dDNSRWxpZWpGbU1XVlpRbmxIVlZsTmQxSjViMEpVVFdnd2VYUk5SVXh0V0RSRmNtSnBNVEptUVhOcU16RmpXRlJOWmtOc2F6ZzVVME15UXk5M1R6RjFhMUZqZERCUFVuQjZZV0ZHYzBwT2NFVktjM0ZwZFRSNFZFUkpjek5CY214VmNIVkJPWEZKTURSV1ZqVlFVelJtY3pGc1ZtZERWVUV3TVU1UWFEVXZLek16ZEhWTFluZGxVbmxGYjNsaWVtVmxhRzgwZFZSYWFqWlBZVUZ6VTBsalRYQlBOV1pVVkdnMU0xbFliVVpIUlhsbFluUlVTRTlzTjJobFRuTkxVbmx0Um5OdVVubHZiRlZXYTNNeWJIRTVjRFoxTmpObE5UVjJZVmMyTjBwVFQwcGFjREpyYVhSSFNIRm5NVWRpTVdoQk1VUTVPV3hGUXpKb1IzZHJZWEJYTmpJeVYyeHVXVXBtZEVsMlZISTRNM3BpU2xwSldtWlhURmxPVnpOR09XeDVlalkxYzNGeGJVSlZSa3gyU2tOd2RXWjRPQ3RYY0cxSE5YVkZRU3R3ZEVFeWVHRnhhREV3ZGtZNGNtbHFjVEpzVVc5MVNVRm1RVXBxTUZCTVEwUkRlRmRzWVdVeFUza3hVVTA0TDNGclRuRlljbXM1WmtWc05rdFVUM05OUlZOVlpWcDRNbEZCTm5GSmRFWnVZM1YyWTFoNWRWWjFZMlpaYmpoQlkyZHZaMDFTUTJNM1VYUjVVSE01TUhaQ1RWRmpOekJ3U0ROclRrUmlhbFpGY25OeWJHUlBVRGxrUjFCeU5UWTVLM1ppYmxScFZqaHNORFJoYW1WcFRuWk1aMW8xZUV0b1NrOHJRazlPY21wQ2RtdzJOVkUxTDJrNVkyOTBNMjVOV0ZOUk1raDVXa00yVm13MVJVdFFUMmRvVkRCbUwxZEZSR0ZTVDBsRVdtVnRUa3ByU1RKWlRFUjZSVlJsUzBreU1XbHpUVFZ4VTBFNVIycHBOa3BJWXpNM2EzRlNZelEyVnk5cWFGUlliMEpOTW1GQ04wWkJTMWhOUzFkVWMxaDJhRFpTV0ZoSVdGZFlUek5NVmpoVlRYSTVlWGxHTkVVMFlXMUNWMFZ2T1ZRM2JERTJTWE00YUhBdmMwbDNMMkZrY1c5TFNsazRZMVpGVld4U2IwMTBabk01S3pOWE56TmtOM0JqVkZKMk5tOXNlRU5MU20xUmQzVnhaWGd2UTAxUE1IUkNhRzlyWWpWTmFFRkhVMVU0VFd0dWQydEtZMU41UWpCalVrZEtjWHBZV1VoMk9XRk5kVnBSS3pZMFluWnRVbE5MYjJwSVN6WlZTV1pNVldSb1dreHhjRzh4Y0VFMFlrMXZPSEpJYUV4eVRFWjVhV0poTlRKVFdrWlRVM05TT1Zac056WmxiMjV6VTJ0bWNGVlRRMmRXUldGb1NtSlRUVXhWZDJSclptaHlPVFJNTW5kSlFVRkJQU0o5IC0tPlxuXG48ZGl2IGRhdGEtcGFnZWR0YWJsZT1cImZhbHNlXCI+XG4gIDxzY3JpcHQgZGF0YS1wYWdlZHRhYmxlLXNvdXJjZSB0eXBlPVwiYXBwbGljYXRpb24vanNvblwiPlxue1wiY29sdW1uc1wiOlt7XCJsYWJlbFwiOltcIkRlcGFydG1lbnRcIl0sXCJuYW1lXCI6WzFdLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJHZW5kZXJcIl0sXCJuYW1lXCI6WzJdLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJIU0NcIl0sXCJuYW1lXCI6WzNdLFwidHlwZVwiOltcImRibFwiXSxcImFsaWduXCI6W1wicmlnaHRcIl19LHtcImxhYmVsXCI6W1wiU1NDXCJdLFwibmFtZVwiOls0XSxcInR5cGVcIjpbXCJkYmxcIl0sXCJhbGlnblwiOltcInJpZ2h0XCJdfSx7XCJsYWJlbFwiOltcIkluY29tZVwiXSxcIm5hbWVcIjpbNV0sXCJ0eXBlXCI6W1wiY2hyXCJdLFwiYWxpZ25cIjpbXCJsZWZ0XCJdfSx7XCJsYWJlbFwiOltcIkhvbWV0b3duXCJdLFwibmFtZVwiOls2XSxcInR5cGVcIjpbXCJjaHJcIl0sXCJhbGlnblwiOltcImxlZnRcIl19LHtcImxhYmVsXCI6W1wiQ29tcHV0ZXJcIl0sXCJuYW1lXCI6WzddLFwidHlwZVwiOltcImRibFwiXSxcImFsaWduXCI6W1wicmlnaHRcIl19LHtcImxhYmVsXCI6W1wiUHJlcGFyYXRpb25cIl0sXCJuYW1lXCI6WzhdLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJHYW1pbmdcIl0sXCJuYW1lXCI6WzldLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJBdHRlbmRhbmNlXCJdLFwibmFtZVwiOlsxMF0sXCJ0eXBlXCI6W1wiY2hyXCJdLFwiYWxpZ25cIjpbXCJsZWZ0XCJdfSx7XCJsYWJlbFwiOltcIkpvYlwiXSxcIm5hbWVcIjpbMTFdLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJFbmdsaXNoXCJdLFwibmFtZVwiOlsxMl0sXCJ0eXBlXCI6W1wiZGJsXCJdLFwiYWxpZ25cIjpbXCJyaWdodFwiXX0se1wibGFiZWxcIjpbXCJFeHRyYVwiXSxcIm5hbWVcIjpbMTNdLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJTZW1lc3RlclwiXSxcIm5hbWVcIjpbMTRdLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJMYXN0XCJdLFwibmFtZVwiOlsxNV0sXCJ0eXBlXCI6W1wiZGJsXCJdLFwiYWxpZ25cIjpbXCJyaWdodFwiXX0se1wibGFiZWxcIjpbXCJPdmVyYWxsXCJdLFwibmFtZVwiOlsxNl0sXCJ0eXBlXCI6W1wiZGJsXCJdLFwiYWxpZ25cIjpbXCJyaWdodFwiXX1dLFwiZGF0YVwiOlt7XCIxXCI6XCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiLFwiMlwiOlwiTWFsZVwiLFwiM1wiOlwiNC4xN1wiLFwiNFwiOlwiNC44NFwiLFwiNVwiOlwiTG93IChCZWxvdyAxNSwwMDApXCIsXCI2XCI6XCJWaWxsYWdlXCIsXCI3XCI6XCIzXCIsXCI4XCI6XCJNb3JlIHRoYW4gMyBIb3Vyc1wiLFwiOVwiOlwiMC0xIEhvdXJcIixcIjEwXCI6XCI4MCUtMTAwJVwiLFwiMTFcIjpcIk5vXCIsXCIxMlwiOlwiM1wiLFwiMTNcIjpcIlllc1wiLFwiMTRcIjpcIjZ0aFwiLFwiMTVcIjpcIjMuMjIwXCIsXCIxNlwiOlwiMy4zNTBcIn0se1wiMVwiOlwiQnVzaW5lc3MgQWRtaW5pc3RyYXRpb25cIixcIjJcIjpcIkZlbWFsZVwiLFwiM1wiOlwiNC45MlwiLFwiNFwiOlwiNS4wMFwiLFwiNVwiOlwiVXBwZXIgbWlkZGxlICgzMCwwMDAtNTAsMDAwKVwiLFwiNlwiOlwiQ2l0eVwiLFwiN1wiOlwiM1wiLFwiOFwiOlwiMC0xIEhvdXJcIixcIjlcIjpcIjAtMSBIb3VyXCIsXCIxMFwiOlwiODAlLTEwMCVcIixcIjExXCI6XCJOb1wiLFwiMTJcIjpcIjNcIixcIjEzXCI6XCJZZXNcIixcIjE0XCI6XCI3dGhcIixcIjE1XCI6XCIzLjQ2N1wiLFwiMTZcIjpcIjMuNDY3XCJ9LHtcIjFcIjpcIkJ1c2luZXNzIEFkbWluaXN0cmF0aW9uXCIsXCIyXCI6XCJNYWxlXCIsXCIzXCI6XCI1LjAwXCIsXCI0XCI6XCI0LjgzXCIsXCI1XCI6XCJMb3dlciBtaWRkbGUgKDE1LDAwMC0zMCwwMDApXCIsXCI2XCI6XCJWaWxsYWdlXCIsXCI3XCI6XCIzXCIsXCI4XCI6XCIwLTEgSG91clwiLFwiOVwiOlwiTW9yZSB0aGFuIDMgSG91cnNcIixcIjEwXCI6XCI4MCUtMTAwJVwiLFwiMTFcIjpcIk5vXCIsXCIxMlwiOlwiNFwiLFwiMTNcIjpcIlllc1wiLFwiMTRcIjpcIjNyZFwiLFwiMTVcIjpcIjQuMDAwXCIsXCIxNlwiOlwiMy43MjBcIn0se1wiMVwiOlwiQnVzaW5lc3MgQWRtaW5pc3RyYXRpb25cIixcIjJcIjpcIk1hbGVcIixcIjNcIjpcIjQuMDBcIixcIjRcIjpcIjQuNTBcIixcIjVcIjpcIkhpZ2ggKEFib3ZlIDUwLDAwMClcIixcIjZcIjpcIkNpdHlcIixcIjdcIjpcIjVcIixcIjhcIjpcIk1vcmUgdGhhbiAzIEhvdXJzXCIsXCI5XCI6XCJNb3JlIHRoYW4gMyBIb3Vyc1wiLFwiMTBcIjpcIjgwJS0xMDAlXCIsXCIxMVwiOlwiTm9cIixcIjEyXCI6XCI1XCIsXCIxM1wiOlwiWWVzXCIsXCIxNFwiOlwiNHRoXCIsXCIxNVwiOlwiMy44MDBcIixcIjE2XCI6XCIzLjc1MFwifSx7XCIxXCI6XCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiLFwiMlwiOlwiRmVtYWxlXCIsXCIzXCI6XCIyLjE5XCIsXCI0XCI6XCIzLjE3XCIsXCI1XCI6XCJMb3dlciBtaWRkbGUgKDE1LDAwMC0zMCwwMDApXCIsXCI2XCI6XCJWaWxsYWdlXCIsXCI3XCI6XCIzXCIsXCI4XCI6XCIwLTEgSG91clwiLFwiOVwiOlwiMi0zIEhvdXJzXCIsXCIxMFwiOlwiODAlLTEwMCVcIixcIjExXCI6XCJOb1wiLFwiMTJcIjpcIjNcIixcIjEzXCI6XCJZZXNcIixcIjE0XCI6XCI0dGhcIixcIjE1XCI6XCIzLjk0MFwiLFwiMTZcIjpcIjMuOTQwXCJ9LHtcIjFcIjpcIkNvbXB1dGVyIFNjaWVuY2UgYW5kIEVuZ2luZWVyaW5nXCIsXCIyXCI6XCJNYWxlXCIsXCIzXCI6XCI0Ljc1XCIsXCI0XCI6XCI0LjA1XCIsXCI1XCI6XCJMb3dlciBtaWRkbGUgKDE1LDAwMC0zMCwwMDApXCIsXCI2XCI6XCJWaWxsYWdlXCIsXCI3XCI6XCIzXCIsXCI4XCI6XCIwLTEgSG91clwiLFwiOVwiOlwiTW9yZSB0aGFuIDMgSG91cnNcIixcIjEwXCI6XCJCZWxvdyA0MCVcIixcIjExXCI6XCJOb1wiLFwiMTJcIjpcIjRcIixcIjEzXCI6XCJOb1wiLFwiMTRcIjpcIjJuZFwiLFwiMTVcIjpcIjEuMDAwXCIsXCIxNlwiOlwiMS4wMDBcIn1dLFwib3B0aW9uc1wiOntcImNvbHVtbnNcIjp7XCJtaW5cIjp7fSxcIm1heFwiOlsxMF0sXCJ0b3RhbFwiOlsxNl19LFwicm93c1wiOntcIm1pblwiOlsxMF0sXCJtYXhcIjpbMTBdLFwidG90YWxcIjpbNl19LFwicGFnZXNcIjp7fX19XG4gIDxcL3NjcmlwdD5cbjxcL2Rpdj5cblxuPCEtLSBybmItZnJhbWUtZW5kIC0tPlxuIn0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTYsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxNiJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJzMVZ5MC9VUUJnZjlzVnVDV3VsSkY0TWFXSkkxc1J1Q2dYazV2SmVEZmhneFdEQ1pkZ091OVYycG1sbkFUMFlMNXo5VHpoejhLUlgvUXM4ZWZiaWhZTWVXS2Z0VEhkYlFjS0dnNU8wODcxKzh6MW01cHZONVcxRDJwWUFBRm1ReTdNLyt3REliejFmMWVZQnlHVVlNd1J5b0JUTWgweXRNRUxtWDRFcmJpMTJmQXNqMzFjWFRNZkNsazg5U0MyQy93TzF1a1FjdDBPUnB6YWFGc0pOcEVKc3FpdTR4VERJczNBcmxVcHVBOXFJMDRWVjVQUzRmczFsVmdDVUEwMU5QaDUvKzMzdHVLYndlUnlFb3liemVlaG80dVRaajZPYUFzU0ljTXBPNWZUVGg1M1lYbUZHRXllYnRUSE9sN2hlTnNLUnltRnNuUnlvbFVWa3MybHE5cDZ1NjNlNTV2YVc2N0pTT0pacDJraXRHSHFnMUdiMWhBMUQ5OWxFQzJoR3drYXBXNjIyV2xuWUpmdEl2VHI4M3piSlpJWmZXTFlOVzNGOWx5ejY1c3FxbUJVRkx2SkNwdWZ4OCtXcG1HNXVFQStwdEEyeGFxaDEwdkY4cmlqcTJsUW91SUFmQUpqMFBMQ0RDeFdsYWUxU3kxUU04L3FrTnFYcms5ZkVsNktUT3NNRVNVZVp4MlFBNnFJdEZuY3V2Y1h5dVZ1Y2ZZbjhBY2dvZ01SQ2M3UXR5UHM5MHZCTVFjNzBwSDNrTkRialZFcnNybGRPUDlkR1ByNTY5K3ZiblRpVjhsNDRhamVpTnZMZ1o1eEtoSk8rQk9OcmpCdmw2NVE1L2k5Y290M25NWFNRMkh5WkM2Vmw1RUtQT2doVDBmL1dFRGFST0lEWmVtTkprSTJZTER6RVRlS0kyMWlzTTVxU0E5R2ppNkpIYzM3a3FSYzQ2Vy9qaFRYb0JNMmFCN0ZBS1hNS1dUc1h2aDZSWFhIWFdYTzNMVjhVTXI5eXlGNEU0YW1CV0VvOVQ3bDE2SXM4aHAvc0l3L2FkcW9LSlk4Y1ZFVWxSb010ZnM5KzNXNzNkN3BjVFJ2Nm9seENLSm1Rd3VxZXgvQ01PMHRCaG9rYjVNaEFHU1U4TWtud2tKY1N5QjBjUkdKcXpYWUh2OWFNdVpRKzY0YnZtUlNLb2pISzZVSWZMVWRoWkxxcG8xcEE0Yk1vOHJIaExyTEZ5aWJhNTJTWkZTU3NSOVZsNzZlb25zU2tmcFVTQ2dWRWFoSmJTTUxVd2RrZmhyOTRMMndJQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Department"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Gender"],"name":[2],"type":["chr"],"align":["left"]},{"label":["HSC"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["SSC"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Income"],"name":[5],"type":["chr"],"align":["left"]},{"label":["Hometown"],"name":[6],"type":["chr"],"align":["left"]},{"label":["Computer"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Preparation"],"name":[8],"type":["chr"],"align":["left"]},{"label":["Gaming"],"name":[9],"type":["chr"],"align":["left"]},{"label":["Attendance"],"name":[10],"type":["chr"],"align":["left"]},{"label":["Job"],"name":[11],"type":["chr"],"align":["left"]},{"label":["English"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["Extra"],"name":[13],"type":["chr"],"align":["left"]},{"label":["Semester"],"name":[14],"type":["chr"],"align":["left"]},{"label":["Last"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["Overall"],"name":[16],"type":["dbl"],"align":["right"]}],"data":[{"1":"Business Administration","2":"Male","3":"4.17","4":"4.84","5":"Low (Below 15,000)","6":"Village","7":"3","8":"More than 3 Hours","9":"0-1 Hour","10":"80%-100%","11":"No","12":"3","13":"Yes","14":"6th","15":"3.220","16":"3.350"},{"1":"Business Administration","2":"Female","3":"4.92","4":"5.00","5":"Upper middle (30,000-50,000)","6":"City","7":"3","8":"0-1 Hour","9":"0-1 Hour","10":"80%-100%","11":"No","12":"3","13":"Yes","14":"7th","15":"3.467","16":"3.467"},{"1":"Business Administration","2":"Male","3":"5.00","4":"4.83","5":"Lower middle (15,000-30,000)","6":"Village","7":"3","8":"0-1 Hour","9":"More than 3 Hours","10":"80%-100%","11":"No","12":"4","13":"Yes","14":"3rd","15":"4.000","16":"3.720"},{"1":"Business Administration","2":"Male","3":"4.00","4":"4.50","5":"High (Above 50,000)","6":"City","7":"5","8":"More than 3 Hours","9":"More than 3 Hours","10":"80%-100%","11":"No","12":"5","13":"Yes","14":"4th","15":"3.800","16":"3.750"},{"1":"Business Administration","2":"Female","3":"2.19","4":"3.17","5":"Lower middle (15,000-30,000)","6":"Village","7":"3","8":"0-1 Hour","9":"2-3 Hours","10":"80%-100%","11":"No","12":"3","13":"Yes","14":"4th","15":"3.940","16":"3.940"},{"1":"Computer Science and Engineering","2":"Male","3":"4.75","4":"4.05","5":"Lower middle (15,000-30,000)","6":"Village","7":"3","8":"0-1 Hour","9":"More than 3 Hours","10":"Below 40%","11":"No","12":"4","13":"No","14":"2nd","15":"1.000","16":"1.000"}],"options":{"columns":{"min":{},"max":[10],"total":[16]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVaR2x0S0dSbUtWeHVYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbmRpbShkZilcblxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGltKGRmKVxuXG5gYGAifQ== -->
+<pre class="r"><code>dim(df)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQ5MyAgMTZcbiJ9 -->
+<pre><code>[1] 493  16</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVjMkZ3Y0d4NUtHUm1MQ0JqYkdGemN5bGNibHh1WUdCZ0luMD0gLS0+XG5cbmBgYHJcbnNhcHBseShkZiwgY2xhc3MpXG5cbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2FwcGx5KGRmLCBjbGFzcylcblxuYGBgIn0= -->
+<pre class="r"><code>sapply(df, class)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIERlcGFydG1lbnQgICAgICBHZW5kZXIgICAgICAgICBIU0MgICAgICAgICBTU0MgICAgICBJbmNvbWUgICAgSG9tZXRvd24gXG5cImNoYXJhY3RlclwiIFwiY2hhcmFjdGVyXCIgICBcIm51bWVyaWNcIiAgIFwibnVtZXJpY1wiIFwiY2hhcmFjdGVyXCIgXCJjaGFyYWN0ZXJcIiBcbiAgIENvbXB1dGVyIFByZXBhcmF0aW9uICAgICAgR2FtaW5nICBBdHRlbmRhbmNlICAgICAgICAgSm9iICAgICBFbmdsaXNoIFxuICBcIm51bWVyaWNcIiBcImNoYXJhY3RlclwiIFwiY2hhcmFjdGVyXCIgXCJjaGFyYWN0ZXJcIiBcImNoYXJhY3RlclwiICAgXCJudW1lcmljXCIgXG4gICAgICBFeHRyYSAgICBTZW1lc3RlciAgICAgICAgTGFzdCAgICAgT3ZlcmFsbCBcblwiY2hhcmFjdGVyXCIgXCJjaGFyYWN0ZXJcIiAgIFwibnVtZXJpY1wiICAgXCJudW1lcmljXCIgXG4ifQ== -->
+<pre><code> Department      Gender         HSC         SSC      Income    Hometown 
+&quot;character&quot; &quot;character&quot;   &quot;numeric&quot;   &quot;numeric&quot; &quot;character&quot; &quot;character&quot; 
+   Computer Preparation      Gaming  Attendance         Job     English 
+  &quot;numeric&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot;   &quot;numeric&quot; 
+      Extra    Semester        Last     Overall 
+&quot;character&quot; &quot;character&quot;   &quot;numeric&quot;   &quot;numeric&quot; </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="char-data-processing" class="section level3">
+<h3>Char data processing</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVjSEpwYm5Rb1kyaGhjbDlqYjJ4ektWeHVYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbnByaW50KGNoYXJfY29scylcblxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoY2hhcl9jb2xzKVxuXG5gYGAifQ== -->
+<pre class="r"><code>print(char_cols)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkRlcGFydG1lbnRcIiAgXCJHZW5kZXJcIiAgICAgIFwiSW5jb21lXCIgICAgICBcIkhvbWV0b3duXCIgICAgXCJQcmVwYXJhdGlvblwiIFwiR2FtaW5nXCIgICAgICBcIkF0dGVuZGFuY2VcIiAgXCJKb2JcIiAgICAgICAgXG4gWzldIFwiRXh0cmFcIiAgICAgICBcIlNlbWVzdGVyXCIgICBcbiJ9 -->
+<pre><code> [1] &quot;Department&quot;  &quot;Gender&quot;      &quot;Income&quot;      &quot;Hometown&quot;    &quot;Preparation&quot; &quot;Gaming&quot;      &quot;Attendance&quot;  &quot;Job&quot;        
+ [9] &quot;Extra&quot;       &quot;Semester&quot;   </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Diketahui bahwa Departemen, Gender, Income, Hometown, Preparation,
+Gaming, Attendance, Job, Extra, Semester adalah kategorik</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1mcmFtZS1iZWdpbiBleUp0WlhSaFpHRjBZU0k2ZXlKamJHRnpjMlZ6SWpwYkluUmliRjlrWmlJc0luUmliQ0lzSW1SaGRHRXVabkpoYldVaVhTd2libkp2ZHlJNk5pd2libU52YkNJNk1UQXNJbk4xYlcxaGNua2lPbnNpUVNCMGFXSmliR1VpT2xzaU5pRERseUF4TUNKZGZYMHNJbkprWmlJNklrZzBjMGxCUVVGQlFVRkJRVUp6TVZWVVZ5OVVVVUpFWkRWelRuUnFTVzlMVDFoRWFITktaRXRSWTB0U01EWlRVV0V2YjFwRlJWZEpWV3hUVDBjcksxRlhURll6Y21aWE5rdFVaQ3RPTkdWSGMyVk9kR0pKZEZOT1pVdEJTbVIwZGpWek1tSnVaRzB4TlM5UVVscGtLeXQwUVd0b1pHUktielJvVG5aUmNHOVlXREEyWTBsVFIwNUhhRzlpY0VWR1lUWm1jMGMyVkdGRFRraHZTR0o1YzI1WWFIZHJjMU00WjJwMWJVbG9OemQzV1RZeVdUbHhXRFJFTW1nMlMwMU5iekJoUkc5MVpXVkVPRWxCZVhkbGJYaHRTMGxIYkVNcmJXeFdXV0ZhZVhsQlNFWnpia1ZMTm5OSmRrNVJWa1J1YmpoM09YbFVhbk5JUlU5RGNuUXZMMkZrWkRGWVQyWlFlVWx2Y1hkMFRrUnVVRUZFWVRaaWMzQTJaWGszY0ZKb1ZVWXlTMWREV25nclMyRlpPVGx4WTNveWFHeE9OVVJZVVhnNGRpOUliRTUxV25aUGNraDNVbk5sZEdaMmIyRTVMMUJLY1RaTk9IVTFialV4U2tKV1ZGQnRTMEk1VDNCaFNtbHVUbWw1TTFZMmJXVk5aV1YzTVdobFpWY3hSamRwV0dGUE1EVkVNRnBYWVdocE5uVXdOMUJrV0dZdmEyUXhZV1p1UlVSa1NsRlljVzR5VldFMlFubHFkbTh6YVU1bFFXWXdhakJTY3poTlpreDFRMlpqVlU1SVMzazRRbUpuYm1WSFZUaE9VVlZNZDFkNWNXNVVkblJKTkdsWk1HbEZTV0ptTjFoVmVFRmplazFHWVRjMFVXNVJMMDVrWW04d1VtRjZhek13SzFCS1NqVllTMmwzVUVaUGJWWm9UMnBpZVRsRFQzUk5Vak5FZDFkSlMyVjVPRzV3Y1VScVIzaDRSMHAyVlRWWlNGVTBhVU53Vm5RMVUyTmtNRE5zTWl0clZ5OWpWRWhaY2tnMFZsY3pVRU14YUhNeWFrNVBiWHBRVG5WME9GWTJkRWMyY2xWbk1scGFVbGRxY1VwaFR6bDJlWE51YUVSV1VuYzNhVlZuY2pSWk5ETlRPRk5XVFhob1Z5dEljVlY2VlhNM1kza3lkamRTZUdKQ1YzZDJlVFpuZEV0clpIUlJWRm95VkZRNFFtMHdRbWROYms4MGVuVkdWRE5LUW5OUU4yOVNlbTFrZW1GcVdqWTBOalpYYldodFNqZGpia0ZsVEV4WGVXVXhkbFpRT0VWdVkzZEhRVUZCUFNKOSAtLT5cblxuPGRpdiBkYXRhLXBhZ2VkdGFibGU9XCJmYWxzZVwiPlxuICA8c2NyaXB0IGRhdGEtcGFnZWR0YWJsZS1zb3VyY2UgdHlwZT1cImFwcGxpY2F0aW9uL2pzb25cIj5cbntcImNvbHVtbnNcIjpbe1wibGFiZWxcIjpbXCJEZXBhcnRtZW50XCJdLFwibmFtZVwiOlsxXSxcInR5cGVcIjpbXCJjaHJcIl0sXCJhbGlnblwiOltcImxlZnRcIl19LHtcImxhYmVsXCI6W1wiR2VuZGVyXCJdLFwibmFtZVwiOlsyXSxcInR5cGVcIjpbXCJjaHJcIl0sXCJhbGlnblwiOltcImxlZnRcIl19LHtcImxhYmVsXCI6W1wiSW5jb21lXCJdLFwibmFtZVwiOlszXSxcInR5cGVcIjpbXCJjaHJcIl0sXCJhbGlnblwiOltcImxlZnRcIl19LHtcImxhYmVsXCI6W1wiSG9tZXRvd25cIl0sXCJuYW1lXCI6WzRdLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJQcmVwYXJhdGlvblwiXSxcIm5hbWVcIjpbNV0sXCJ0eXBlXCI6W1wiY2hyXCJdLFwiYWxpZ25cIjpbXCJsZWZ0XCJdfSx7XCJsYWJlbFwiOltcIkdhbWluZ1wiXSxcIm5hbWVcIjpbNl0sXCJ0eXBlXCI6W1wiY2hyXCJdLFwiYWxpZ25cIjpbXCJsZWZ0XCJdfSx7XCJsYWJlbFwiOltcIkF0dGVuZGFuY2VcIl0sXCJuYW1lXCI6WzddLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJKb2JcIl0sXCJuYW1lXCI6WzhdLFwidHlwZVwiOltcImNoclwiXSxcImFsaWduXCI6W1wibGVmdFwiXX0se1wibGFiZWxcIjpbXCJFeHRyYVwiXSxcIm5hbWVcIjpbOV0sXCJ0eXBlXCI6W1wiY2hyXCJdLFwiYWxpZ25cIjpbXCJsZWZ0XCJdfSx7XCJsYWJlbFwiOltcIlNlbWVzdGVyXCJdLFwibmFtZVwiOlsxMF0sXCJ0eXBlXCI6W1wiY2hyXCJdLFwiYWxpZ25cIjpbXCJsZWZ0XCJdfV0sXCJkYXRhXCI6W3tcIjFcIjpcIkJ1c2luZXNzIEFkbWluaXN0cmF0aW9uXCIsXCIyXCI6XCJNYWxlXCIsXCIzXCI6XCJMb3cgKEJlbG93IDE1LDAwMClcIixcIjRcIjpcIlZpbGxhZ2VcIixcIjVcIjpcIk1vcmUgdGhhbiAzIEhvdXJzXCIsXCI2XCI6XCIwLTEgSG91clwiLFwiN1wiOlwiODAlLTEwMCVcIixcIjhcIjpcIk5vXCIsXCI5XCI6XCJZZXNcIixcIjEwXCI6XCI2dGhcIn0se1wiMVwiOlwiQnVzaW5lc3MgQWRtaW5pc3RyYXRpb25cIixcIjJcIjpcIkZlbWFsZVwiLFwiM1wiOlwiVXBwZXIgbWlkZGxlICgzMCwwMDAtNTAsMDAwKVwiLFwiNFwiOlwiQ2l0eVwiLFwiNVwiOlwiMC0xIEhvdXJcIixcIjZcIjpcIjAtMSBIb3VyXCIsXCI3XCI6XCI4MCUtMTAwJVwiLFwiOFwiOlwiTm9cIixcIjlcIjpcIlllc1wiLFwiMTBcIjpcIjd0aFwifSx7XCIxXCI6XCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiLFwiMlwiOlwiTWFsZVwiLFwiM1wiOlwiTG93ZXIgbWlkZGxlICgxNSwwMDAtMzAsMDAwKVwiLFwiNFwiOlwiVmlsbGFnZVwiLFwiNVwiOlwiMC0xIEhvdXJcIixcIjZcIjpcIk1vcmUgdGhhbiAzIEhvdXJzXCIsXCI3XCI6XCI4MCUtMTAwJVwiLFwiOFwiOlwiTm9cIixcIjlcIjpcIlllc1wiLFwiMTBcIjpcIjNyZFwifSx7XCIxXCI6XCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiLFwiMlwiOlwiTWFsZVwiLFwiM1wiOlwiSGlnaCAoQWJvdmUgNTAsMDAwKVwiLFwiNFwiOlwiQ2l0eVwiLFwiNVwiOlwiTW9yZSB0aGFuIDMgSG91cnNcIixcIjZcIjpcIk1vcmUgdGhhbiAzIEhvdXJzXCIsXCI3XCI6XCI4MCUtMTAwJVwiLFwiOFwiOlwiTm9cIixcIjlcIjpcIlllc1wiLFwiMTBcIjpcIjR0aFwifSx7XCIxXCI6XCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiLFwiMlwiOlwiRmVtYWxlXCIsXCIzXCI6XCJMb3dlciBtaWRkbGUgKDE1LDAwMC0zMCwwMDApXCIsXCI0XCI6XCJWaWxsYWdlXCIsXCI1XCI6XCIwLTEgSG91clwiLFwiNlwiOlwiMi0zIEhvdXJzXCIsXCI3XCI6XCI4MCUtMTAwJVwiLFwiOFwiOlwiTm9cIixcIjlcIjpcIlllc1wiLFwiMTBcIjpcIjR0aFwifSx7XCIxXCI6XCJDb21wdXRlciBTY2llbmNlIGFuZCBFbmdpbmVlcmluZ1wiLFwiMlwiOlwiTWFsZVwiLFwiM1wiOlwiTG93ZXIgbWlkZGxlICgxNSwwMDAtMzAsMDAwKVwiLFwiNFwiOlwiVmlsbGFnZVwiLFwiNVwiOlwiMC0xIEhvdXJcIixcIjZcIjpcIk1vcmUgdGhhbiAzIEhvdXJzXCIsXCI3XCI6XCJCZWxvdyA0MCVcIixcIjhcIjpcIk5vXCIsXCI5XCI6XCJOb1wiLFwiMTBcIjpcIjJuZFwifV0sXCJvcHRpb25zXCI6e1wiY29sdW1uc1wiOntcIm1pblwiOnt9LFwibWF4XCI6WzEwXSxcInRvdGFsXCI6WzEwXX0sXCJyb3dzXCI6e1wibWluXCI6WzEwXSxcIm1heFwiOlsxMF0sXCJ0b3RhbFwiOls2XX0sXCJwYWdlc1wiOnt9fX1cbiAgPFwvc2NyaXB0PlxuPFwvZGl2PlxuXG48IS0tIHJuYi1mcmFtZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTAsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMCJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJzMVVUVy9UUUJEZDVzTnRqSW9LT1hEaHNKZEtRY0tSMDZTUWEvb1pFRVdJVWxTT0crK1FXTFYzcmZXNktUZCtONGVHc2VOdGJJdFNOZUtBSmR0djVzMmJuZG0xNS9QUlpkKyt0QWtoZGRKbzRoTnZRcG9YWDA2Y0lTR05HaG9icEVGYTZmc0c2VGFDTkhvSGJ5c25YaHdrc1M4Z2p1bUloNzd3WTYyWTlxWDREMmg2S01NbzBhRG91ZWVEOElBeXdlbXhtS0lHbEMrbWxWWWFaeXlBSEZzbkVLNnNJdk5RVkRubjh3OXlUanNIRU9DcnQvL2FkZDFYT2ZQeUlvcXd0TkRuUEFEYTZic3A2ZXk3cFJoVUYyS1dDWngrS2FZOTlxY3oyaGxONURYUXg4di9IbE51WnZPckh3UnNldGZ2b2E5L1BKcTZNOHU1bjUxSkJWVFBtS0I5T3BhSmluTml5M1Y2bWVNZWV3MWhlZVcxRjdpWGFPMDVEMFpXYWhpNnUwN1BkWGYva2QxYWZuRURkSlFYcW4yVWE2Qnlqdm8zaU5lQWYwajBSczhNZkx1Q2ZjVU5IS3k4QmJnbmVHVThOUVVMd1d5cW5UdnRJNGlZMGlFSWJmN1hVeEFjek1GYTc0UW5RL05kYm8wUmF6azMwK1BKSjVYS2l3UEZPbVZoT2pieTlDT3RNUjNEd1dJS2V5OG5wcURqR3h4R0p2VTVZSFU0aUNwVnQ1U2NkMDNsMitrVy9jVEhZckg0VlczUEMxaHMyak5PbXpQTnV0OFY2dEc2clVnMlpaUldqcUphTzl2eXNuaERWUnc3aVVncjRZNDNTOFNWTXhoVytIcVV6VXM3Y3kydjdSeGJCV3d2eTZndEtrZHRRVFoyVFQ4Qm0wQmdNbk80enVGVDNKQnNQN29Sem1kemFqWjY0NjZXbWhtSjdjbkFlTExXeWUxdlZQOEVuY3dHQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Department"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Gender"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Income"],"name":[3],"type":["chr"],"align":["left"]},{"label":["Hometown"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Preparation"],"name":[5],"type":["chr"],"align":["left"]},{"label":["Gaming"],"name":[6],"type":["chr"],"align":["left"]},{"label":["Attendance"],"name":[7],"type":["chr"],"align":["left"]},{"label":["Job"],"name":[8],"type":["chr"],"align":["left"]},{"label":["Extra"],"name":[9],"type":["chr"],"align":["left"]},{"label":["Semester"],"name":[10],"type":["chr"],"align":["left"]}],"data":[{"1":"Business Administration","2":"Male","3":"Low (Below 15,000)","4":"Village","5":"More than 3 Hours","6":"0-1 Hour","7":"80%-100%","8":"No","9":"Yes","10":"6th"},{"1":"Business Administration","2":"Female","3":"Upper middle (30,000-50,000)","4":"City","5":"0-1 Hour","6":"0-1 Hour","7":"80%-100%","8":"No","9":"Yes","10":"7th"},{"1":"Business Administration","2":"Male","3":"Lower middle (15,000-30,000)","4":"Village","5":"0-1 Hour","6":"More than 3 Hours","7":"80%-100%","8":"No","9":"Yes","10":"3rd"},{"1":"Business Administration","2":"Male","3":"High (Above 50,000)","4":"City","5":"More than 3 Hours","6":"More than 3 Hours","7":"80%-100%","8":"No","9":"Yes","10":"4th"},{"1":"Business Administration","2":"Female","3":"Lower middle (15,000-30,000)","4":"Village","5":"0-1 Hour","6":"2-3 Hours","7":"80%-100%","8":"No","9":"Yes","10":"4th"},{"1":"Computer Science and Engineering","2":"Male","3":"Lower middle (15,000-30,000)","4":"Village","5":"0-1 Hour","6":"More than 3 Hours","7":"Below 40%","8":"No","9":"No","10":"2nd"}],"options":{"columns":{"min":{},"max":[10],"total":[10]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Cek kolom distinct</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVjMkZ3Y0d4NUtHTm9ZWEpmWkdGMFlTd2dkVzVwY1hWbEtWeHVYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbnNhcHBseShjaGFyX2RhdGEsIHVuaXF1ZSlcblxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2FwcGx5KGNoYXJfZGF0YSwgdW5pcXVlKVxuXG5gYGAifQ== -->
+<pre class="r"><code>sapply(char_data, unique)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJERlcGFydG1lbnRcbiBbMV0gXCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiICAgICAgICAgICAgICAgICAgICAgXCJDb21wdXRlciBTY2llbmNlIGFuZCBFbmdpbmVlcmluZ1wiICAgICAgICAgICBcbiBbM10gXCJFY29ub21pY3NcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJFbGVjdHJpY2FsIGFuZCBFbGVjdHJvbmljIEVuZ2luZWVyaW5nXCIgICAgICBcbiBbNV0gXCJFbmdsaXNoXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJKb3VybmFsaXNtLCBDb21tdW5pY2F0aW9uIGFuZCBNZWRpYSBTdHVkaWVzXCJcbiBbN10gXCJMYXcgYW5kIEh1bWFuIFJpZ2h0c1wiICAgICAgICAgICAgICAgICAgICAgICAgXCJQb2xpdGljYWwgU2NpZW5jZVwiICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbOV0gXCJQdWJsaWMgSGVhbHRoXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJTb2Npb2xvZ3lcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblxuJEdlbmRlclxuWzFdIFwiTWFsZVwiICAgXCJGZW1hbGVcIlxuXG4kSW5jb21lXG5bMV0gXCJMb3cgKEJlbG93IDE1LDAwMClcIiAgICAgICAgICAgXCJVcHBlciBtaWRkbGUgKDMwLDAwMC01MCwwMDApXCIgXCJMb3dlciBtaWRkbGUgKDE1LDAwMC0zMCwwMDApXCJcbls0XSBcIkhpZ2ggKEFib3ZlIDUwLDAwMClcIiAgICAgICAgIFxuXG4kSG9tZXRvd25cblsxXSBcIlZpbGxhZ2VcIiBcIkNpdHlcIiAgIFxuXG4kUHJlcGFyYXRpb25cblsxXSBcIk1vcmUgdGhhbiAzIEhvdXJzXCIgXCIwLTEgSG91clwiICAgICAgICAgIFwiMi0zIEhvdXJzXCIgICAgICAgIFxuXG4kR2FtaW5nXG5bMV0gXCIwLTEgSG91clwiICAgICAgICAgIFwiTW9yZSB0aGFuIDMgSG91cnNcIiBcIjItMyBIb3Vyc1wiICAgICAgICBcblxuJEF0dGVuZGFuY2VcblsxXSBcIjgwJS0xMDAlXCIgIFwiQmVsb3cgNDAlXCIgXCI2MCUtNzklXCIgICBcIjQwJS01OSVcIiAgXG5cbiRKb2JcblsxXSBcIk5vXCIgIFwiWWVzXCJcblxuJEV4dHJhXG5bMV0gXCJZZXNcIiBcIk5vXCIgXG5cbiRTZW1lc3RlclxuIFsxXSBcIjZ0aFwiICBcIjd0aFwiICBcIjNyZFwiICBcIjR0aFwiICBcIjJuZFwiICBcIjExdGhcIiBcIjV0aFwiICBcIjl0aFwiICBcIjh0aFwiICBcIjEwdGhcIiBcIjEydGhcIlxuIn0= -->
+<pre><code>$Department
+ [1] &quot;Business Administration&quot;                     &quot;Computer Science and Engineering&quot;           
+ [3] &quot;Economics&quot;                                   &quot;Electrical and Electronic Engineering&quot;      
+ [5] &quot;English&quot;                                     &quot;Journalism, Communication and Media Studies&quot;
+ [7] &quot;Law and Human Rights&quot;                        &quot;Political Science&quot;                          
+ [9] &quot;Public Health&quot;                               &quot;Sociology&quot;                                  
+
+$Gender
+[1] &quot;Male&quot;   &quot;Female&quot;
+
+$Income
+[1] &quot;Low (Below 15,000)&quot;           &quot;Upper middle (30,000-50,000)&quot; &quot;Lower middle (15,000-30,000)&quot;
+[4] &quot;High (Above 50,000)&quot;         
+
+$Hometown
+[1] &quot;Village&quot; &quot;City&quot;   
+
+$Preparation
+[1] &quot;More than 3 Hours&quot; &quot;0-1 Hour&quot;          &quot;2-3 Hours&quot;        
+
+$Gaming
+[1] &quot;0-1 Hour&quot;          &quot;More than 3 Hours&quot; &quot;2-3 Hours&quot;        
+
+$Attendance
+[1] &quot;80%-100%&quot;  &quot;Below 40%&quot; &quot;60%-79%&quot;   &quot;40%-59%&quot;  
+
+$Job
+[1] &quot;No&quot;  &quot;Yes&quot;
+
+$Extra
+[1] &quot;Yes&quot; &quot;No&quot; 
+
+$Semester
+ [1] &quot;6th&quot;  &quot;7th&quot;  &quot;3rd&quot;  &quot;4th&quot;  &quot;2nd&quot;  &quot;11th&quot; &quot;5th&quot;  &quot;9th&quot;  &quot;8th&quot;  &quot;10th&quot; &quot;12th&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Standarisasi</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVaR0YwWVNBOExTQmtZWFJoSUNVK0pWeHVJQ0J0ZFhSaGRHVW9ZV055YjNOektIZG9aWEpsS0dsekxtTm9ZWEpoWTNSbGNpa3NJSDV6ZEhKZmRISnBiU2d1S1NrcElDVStKVnh1SUNCdGRYUmhkR1VvWVdOeWIzTnpLSGRvWlhKbEtHbHpMbU5vWVhKaFkzUmxjaWtzSUg1emRISmZkRzlmZEdsMGJHVW9MaWtwS1Z4dVhHNWdZR0FpZlE9PSAtLT5cblxuYGBgclxuZGF0YSA8LSBkYXRhICU+JVxuICBtdXRhdGUoYWNyb3NzKHdoZXJlKGlzLmNoYXJhY3RlciksIH5zdHJfdHJpbSguKSkpICU+JVxuICBtdXRhdGUoYWNyb3NzKHdoZXJlKGlzLmNoYXJhY3RlciksIH5zdHJfdG9fdGl0bGUoLikpKVxuXG5gYGBcblxuPCEtLSBybmItc291cmNlLWVuZCAtLT5cbiJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YSA8LSBkYXRhICU+JVxuICBtdXRhdGUoYWNyb3NzKHdoZXJlKGlzLmNoYXJhY3RlciksIH5zdHJfdHJpbSguKSkpICU+JVxuICBtdXRhdGUoYWNyb3NzKHdoZXJlKGlzLmNoYXJhY3RlciksIH5zdHJfdG9fdGl0bGUoLikpKVxuXG5gYGAifQ== -->
+<pre class="r"><code>data &lt;- data %&gt;%
+  mutate(across(where(is.character), ~str_trim(.))) %&gt;%
+  mutate(across(where(is.character), ~str_to_title(.)))
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXHUwMDFiRzE7XHUwMDFiSDE7RXJyb3JcdTAwMWJoIGluIFVzZU1ldGhvZChcIm11dGF0ZVwiKSA6IFxuICBubyBhcHBsaWNhYmxlIG1ldGhvZCBmb3IgJ211dGF0ZScgYXBwbGllZCB0byBhbiBvYmplY3Qgb2YgY2xhc3MgXCJmdW5jdGlvblwiXG5FcnJvciBkdXJpbmcgd3JhcHVwOiBub3QgdGhhdCBtYW55IGZyYW1lcyBvbiB0aGUgc3RhY2tcbkVycm9yOiBubyBtb3JlIGVycm9yIGhhbmRsZXJzIGF2YWlsYWJsZSAocmVjdXJzaXZlIGVycm9ycz8pOyBpbnZva2luZyAnYWJvcnQnIHJlc3RhcnRcblx1MDAxYmdcbiJ9 -->
+<pre><code>G1;H1;Errorh in UseMethod(&quot;mutate&quot;) : 
+  no applicable method for &#39;mutate&#39; applied to an object of class &quot;function&quot;
+Error during wrapup: not that many frames on the stack
+Error: no more error handlers available (recursive errors?); invoking &#39;abort&#39; restart
+g</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Konversi</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVZR0JnZTNKOVhHNWNibUJnWUNKOSAtLT5cblxuYGBgclxuYGBge3J9XG5cbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBge3J9XG5cbmBgYCJ9 -->
+<pre class="r"><code>```{r}
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXHUwMDFiRzE7XHUwMDFiSDE7RXJyb3JcdTAwMWJoOiBhdHRlbXB0IHRvIHVzZSB6ZXJvLWxlbmd0aCB2YXJpYWJsZSBuYW1lXG5FcnJvciBkdXJpbmcgd3JhcHVwOiBub3QgdGhhdCBtYW55IGZyYW1lcyBvbiB0aGUgc3RhY2tcbkVycm9yOiBubyBtb3JlIGVycm9yIGhhbmRsZXJzIGF2YWlsYWJsZSAocmVjdXJzaXZlIGVycm9ycz8pOyBpbnZva2luZyAnYWJvcnQnIHJlc3RhcnRcblx1MDAxYmdcbiJ9 -->
+<pre><code>G1;H1;Errorh: attempt to use zero-length variable name
+Error during wrapup: not that many frames on the stack
+Error: no more error handlers available (recursive errors?); invoking &#39;abort&#39; restart
+g</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVZR0JnZTNKOVhHNWNibUJnWUNKOSAtLT5cblxuYGBgclxuYGBge3J9XG5cbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBge3J9XG5cbmBgYCJ9 -->
+<pre class="r"><code>```{r}
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXHUwMDFiRzE7XHUwMDFiSDE7RXJyb3JcdTAwMWJoOiBhdHRlbXB0IHRvIHVzZSB6ZXJvLWxlbmd0aCB2YXJpYWJsZSBuYW1lXG5FcnJvciBkdXJpbmcgd3JhcHVwOiBub3QgdGhhdCBtYW55IGZyYW1lcyBvbiB0aGUgc3RhY2tcbkVycm9yOiBubyBtb3JlIGVycm9yIGhhbmRsZXJzIGF2YWlsYWJsZSAocmVjdXJzaXZlIGVycm9ycz8pOyBpbnZva2luZyAnYWJvcnQnIHJlc3RhcnRcblx1MDAxYmdcbiJ9 -->
+<pre><code>G1;H1;Errorh: attempt to use zero-length variable name
+Error during wrapup: not that many frames on the stack
+Error: no more error handlers available (recursive errors?); invoking &#39;abort&#39; restart
+g</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Reordering</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJKYm1OdmJXVTZJRXh2ZHlBOElFeHZkMlZ5SUUxcFpHUnNaU0E4SUZWd2NHVnlJRTFwWkdSc1pTQThJRWhwWjJoY2JtUm1KRWx1WTI5dFpTQThMU0JtWVdOMGIzSW9aR1lrU1c1amIyMWxMQ0JzWlhabGJITWdQU0JqS0Z4dUlDQmNJa3h2ZHlBb1FtVnNiM2NnTVRVc01EQXdLVndpTEZ4dUlDQmNJa3h2ZDJWeUlFMXBaR1JzWlNBb01UVXNNREF3TFRNd0xEQXdNQ2xjSWl4Y2JpQWdYQ0pWY0hCbGNpQk5hV1JrYkdVZ0tETXdMREF3TUMwMU1Dd3dNREFwWENJc1hHNGdJRndpU0dsbmFDQW9RV0p2ZG1VZ05UQXNNREF3S1Z3aVhHNHBMQ0J2Y21SbGNtVmtJRDBnVkZKVlJTbGNibHh1SXlCUWNtVndZWEpoZEdsdmJpQmhibVFnUjJGdGFXNW5JSFJwYldWY2JtUm1KRkJ5WlhCaGNtRjBhVzl1SUR3dElHWmhZM1J2Y2loa1ppUlFjbVZ3WVhKaGRHbHZiaXdnYkdWMlpXeHpJRDBnWXloY2JpQWdYQ0l3TFRFZ1NHOTFjbHdpTENCY0lqSXRNeUJJYjNWeWMxd2lMQ0JjSWsxdmNtVWdWR2hoYmlBeklFaHZkWEp6WENKY2Jpa3NJRzl5WkdWeVpXUWdQU0JVVWxWRktWeHVYRzVrWmlSSFlXMXBibWNnUEMwZ1ptRmpkRzl5S0dSbUpFZGhiV2x1Wnl3Z2JHVjJaV3h6SUQwZ1l5aGNiaUFnWENJd0xURWdTRzkxY2x3aUxDQmNJakl0TXlCSWIzVnljMXdpTENCY0lrMXZjbVVnVkdoaGJpQXpJRWh2ZFhKelhDSmNiaWtzSUc5eVpHVnlaV1FnUFNCVVVsVkZLVnh1WEc0aklFRjBkR1Z1WkdGdVkyVmNibVJtSkVGMGRHVnVaR0Z1WTJVZ1BDMGdabUZqZEc5eUtHUm1KRUYwZEdWdVpHRnVZMlVzSUd4bGRtVnNjeUE5SUdNb1hHNGdJRndpUW1Wc2IzY2dOREFsWENJc0lGd2lOREFsTFRVNUpWd2lMQ0JjSWpZd0pTMDNPU1ZjSWl3Z1hDSTRNQ1V0TVRBd0pWd2lYRzRwTENCdmNtUmxjbVZrSUQwZ1ZGSlZSU2xjYmx4dUl5QlRaVzFsYzNSbGNpQW9ZM1Z6ZEc5dElITnZjblFnWW5rZ2JuVnRZbVZ5S1Z4dVpHWWtVMlZ0WlhOMFpYSWdQQzBnWm1GamRHOXlLR1JtSkZObGJXVnpkR1Z5TENCc1pYWmxiSE1nUFNCd1lYTjBaVEFvTVRveE1pd2dYQ0owYUZ3aUtTd2diM0prWlhKbFpDQTlJRlJTVlVVcFhHNWdZR0FpZlE9PSAtLT5cblxuYGBgclxuIyBJbmNvbWU6IExvdyA8IExvd2VyIE1pZGRsZSA8IFVwcGVyIE1pZGRsZSA8IEhpZ2hcbmRmJEluY29tZSA8LSBmYWN0b3IoZGYkSW5jb21lLCBsZXZlbHMgPSBjKFxuICBcIkxvdyAoQmVsb3cgMTUsMDAwKVwiLFxuICBcIkxvd2VyIE1pZGRsZSAoMTUsMDAwLTMwLDAwMClcIixcbiAgXCJVcHBlciBNaWRkbGUgKDMwLDAwMC01MCwwMDApXCIsXG4gIFwiSGlnaCAoQWJvdmUgNTAsMDAwKVwiXG4pLCBvcmRlcmVkID0gVFJVRSlcblxuIyBQcmVwYXJhdGlvbiBhbmQgR2FtaW5nIHRpbWVcbmRmJFByZXBhcmF0aW9uIDwtIGZhY3RvcihkZiRQcmVwYXJhdGlvbiwgbGV2ZWxzID0gYyhcbiAgXCIwLTEgSG91clwiLCBcIjItMyBIb3Vyc1wiLCBcIk1vcmUgVGhhbiAzIEhvdXJzXCJcbiksIG9yZGVyZWQgPSBUUlVFKVxuXG5kZiRHYW1pbmcgPC0gZmFjdG9yKGRmJEdhbWluZywgbGV2ZWxzID0gYyhcbiAgXCIwLTEgSG91clwiLCBcIjItMyBIb3Vyc1wiLCBcIk1vcmUgVGhhbiAzIEhvdXJzXCJcbiksIG9yZGVyZWQgPSBUUlVFKVxuXG4jIEF0dGVuZGFuY2VcbmRmJEF0dGVuZGFuY2UgPC0gZmFjdG9yKGRmJEF0dGVuZGFuY2UsIGxldmVscyA9IGMoXG4gIFwiQmVsb3cgNDAlXCIsIFwiNDAlLTU5JVwiLCBcIjYwJS03OSVcIiwgXCI4MCUtMTAwJVwiXG4pLCBvcmRlcmVkID0gVFJVRSlcblxuIyBTZW1lc3RlciAoY3VzdG9tIHNvcnQgYnkgbnVtYmVyKVxuZGYkU2VtZXN0ZXIgPC0gZmFjdG9yKGRmJFNlbWVzdGVyLCBsZXZlbHMgPSBwYXN0ZTAoMToxMiwgXCJ0aFwiKSwgb3JkZXJlZCA9IFRSVUUpXG5gYGBcblxuPCEtLSBybmItc291cmNlLWVuZCAtLT5cbiJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBJbmNvbWU6IExvdyA8IExvd2VyIE1pZGRsZSA8IFVwcGVyIE1pZGRsZSA8IEhpZ2hcbmRmJEluY29tZSA8LSBmYWN0b3IoZGYkSW5jb21lLCBsZXZlbHMgPSBjKFxuICBcIkxvdyAoQmVsb3cgMTUsMDAwKVwiLFxuICBcIkxvd2VyIE1pZGRsZSAoMTUsMDAwLTMwLDAwMClcIixcbiAgXCJVcHBlciBNaWRkbGUgKDMwLDAwMC01MCwwMDApXCIsXG4gIFwiSGlnaCAoQWJvdmUgNTAsMDAwKVwiXG4pLCBvcmRlcmVkID0gVFJVRSlcblxuIyBQcmVwYXJhdGlvbiBhbmQgR2FtaW5nIHRpbWVcbmRmJFByZXBhcmF0aW9uIDwtIGZhY3RvcihkZiRQcmVwYXJhdGlvbiwgbGV2ZWxzID0gYyhcbiAgXCIwLTEgSG91clwiLCBcIjItMyBIb3Vyc1wiLCBcIk1vcmUgVGhhbiAzIEhvdXJzXCJcbiksIG9yZGVyZWQgPSBUUlVFKVxuXG5kZiRHYW1pbmcgPC0gZmFjdG9yKGRmJEdhbWluZywgbGV2ZWxzID0gYyhcbiAgXCIwLTEgSG91clwiLCBcIjItMyBIb3Vyc1wiLCBcIk1vcmUgVGhhbiAzIEhvdXJzXCJcbiksIG9yZGVyZWQgPSBUUlVFKVxuXG4jIEF0dGVuZGFuY2VcbmRmJEF0dGVuZGFuY2UgPC0gZmFjdG9yKGRmJEF0dGVuZGFuY2UsIGxldmVscyA9IGMoXG4gIFwiQmVsb3cgNDAlXCIsIFwiNDAlLTU5JVwiLCBcIjYwJS03OSVcIiwgXCI4MCUtMTAwJVwiXG4pLCBvcmRlcmVkID0gVFJVRSlcblxuIyBTZW1lc3RlciAoY3VzdG9tIHNvcnQgYnkgbnVtYmVyKVxuZGYkU2VtZXN0ZXIgPC0gZmFjdG9yKGRmJFNlbWVzdGVyLCBsZXZlbHMgPSBwYXN0ZTAoMToxMiwgXCJ0aFwiKSwgb3JkZXJlZCA9IFRSVUUpXG5gYGAifQ== -->
+<pre class="r"><code># Income: Low &lt; Lower Middle &lt; Upper Middle &lt; High
+df$Income &lt;- factor(df$Income, levels = c(
+  &quot;Low (Below 15,000)&quot;,
+  &quot;Lower Middle (15,000-30,000)&quot;,
+  &quot;Upper Middle (30,000-50,000)&quot;,
+  &quot;High (Above 50,000)&quot;
+), ordered = TRUE)
+
+# Preparation and Gaming time
+df$Preparation &lt;- factor(df$Preparation, levels = c(
+  &quot;0-1 Hour&quot;, &quot;2-3 Hours&quot;, &quot;More Than 3 Hours&quot;
+), ordered = TRUE)
+
+df$Gaming &lt;- factor(df$Gaming, levels = c(
+  &quot;0-1 Hour&quot;, &quot;2-3 Hours&quot;, &quot;More Than 3 Hours&quot;
+), ordered = TRUE)
+
+# Attendance
+df$Attendance &lt;- factor(df$Attendance, levels = c(
+  &quot;Below 40%&quot;, &quot;40%-59%&quot;, &quot;60%-79%&quot;, &quot;80%-100%&quot;
+), ordered = TRUE)
+
+# Semester (custom sort by number)
+df$Semester &lt;- factor(df$Semester, levels = paste0(1:12, &quot;th&quot;), ordered = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Cek data yang sudah dibersihkan</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVjM1J5S0dSbUtWeHVYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbnN0cihkZilcblxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGRmKVxuXG5gYGAifQ== -->
+<pre class="r"><code>str(df)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoidGliYmxlIFs0OTMgw5cgMTZdIChTMzogdGJsX2RmL3RibC9kYXRhLmZyYW1lKVxuICQgRGVwYXJ0bWVudCA6IEZhY3RvciB3LyAxMCBsZXZlbHMgXCJCdXNpbmVzcyBBZG1pbmlzdHJhdGlvblwiLC4uOiAxIDEgMSAxIDEgMiAyIDIgMiAyIC4uLlxuICQgR2VuZGVyICAgICA6IEZhY3RvciB3LyAyIGxldmVscyBcIkZlbWFsZVwiLFwiTWFsZVwiOiAyIDEgMiAyIDEgMiAyIDIgMiAxIC4uLlxuICQgSFNDICAgICAgICA6IG51bSBbMTo0OTNdIDQuMTcgNC45MiA1IDQgMi4xOSA0Ljc1IDQuNDIgNC41IDMuMzIgMy4zMyAuLi5cbiAkIFNTQyAgICAgICAgOiBudW0gWzE6NDkzXSA0Ljg0IDUgNC44MyA0LjUgMy4xNyA0LjA1IDUgNC44MSA0LjUgNC45NSAuLi5cbiAkIEluY29tZSAgICAgOiBGYWN0b3Igdy8gNCBsZXZlbHMgXCJIaWdoIChBYm92ZSA1MCwwMDApXCIsLi46IDIgNCAzIDEgMyAzIDEgNCAyIDMgLi4uXG4gJCBIb21ldG93biAgIDogRmFjdG9yIHcvIDIgbGV2ZWxzIFwiQ2l0eVwiLFwiVmlsbGFnZVwiOiAyIDEgMiAxIDIgMiAyIDEgMSAxIC4uLlxuICQgQ29tcHV0ZXIgICA6IG51bSBbMTo0OTNdIDMgMyAzIDUgMyAzIDQgMyA0IDMgLi4uXG4gJCBQcmVwYXJhdGlvbjogRmFjdG9yIHcvIDMgbGV2ZWxzIFwiMC0xIEhvdXJcIixcIjItMyBIb3Vyc1wiLC4uOiAzIDEgMSAzIDEgMSAxIDIgMSAxIC4uLlxuICQgR2FtaW5nICAgICA6IEZhY3RvciB3LyAzIGxldmVscyBcIjAtMSBIb3VyXCIsXCIyLTMgSG91cnNcIiwuLjogMSAxIDMgMyAyIDMgMyAzIDMgMyAuLi5cbiAkIEF0dGVuZGFuY2UgOiBGYWN0b3Igdy8gNCBsZXZlbHMgXCI0MCUtNTklXCIsXCI2MCUtNzklXCIsLi46IDMgMyAzIDMgMyA0IDIgMyA0IDQgLi4uXG4gJCBKb2IgICAgICAgIDogRmFjdG9yIHcvIDIgbGV2ZWxzIFwiTm9cIixcIlllc1wiOiAxIDEgMSAxIDEgMSAxIDEgMSAxIC4uLlxuICQgRW5nbGlzaCAgICA6IG51bSBbMTo0OTNdIDMgMyA0IDUgMyA0IDIgNCAzIDQgLi4uXG4gJCBFeHRyYSAgICAgIDogRmFjdG9yIHcvIDIgbGV2ZWxzIFwiTm9cIixcIlllc1wiOiAyIDIgMiAyIDIgMSAxIDIgMiAxIC4uLlxuICQgU2VtZXN0ZXIgICA6IE9yZC5mYWN0b3Igdy8gMTIgbGV2ZWxzIFwiMXRoXCI8XCIydGhcIjxcIjN0aFwiPC4uOiA2IDcgTkEgNCA0IE5BIE5BIDExIDUgTkEgLi4uXG4gJCBMYXN0ICAgICAgIDogbnVtIFsxOjQ5M10gMy4yMiAzLjQ3IDQgMy44IDMuOTQgLi4uXG4gJCBPdmVyYWxsICAgIDogbnVtIFsxOjQ5M10gMy4zNSAzLjQ3IDMuNzIgMy43NSAzLjk0IC4uLlxuIn0= -->
+<pre><code>tibble [493 × 16] (S3: tbl_df/tbl/data.frame)
+ $ Department : Factor w/ 10 levels &quot;Business Administration&quot;,..: 1 1 1 1 1 2 2 2 2 2 ...
+ $ Gender     : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 1 2 2 1 2 2 2 2 1 ...
+ $ HSC        : num [1:493] 4.17 4.92 5 4 2.19 4.75 4.42 4.5 3.32 3.33 ...
+ $ SSC        : num [1:493] 4.84 5 4.83 4.5 3.17 4.05 5 4.81 4.5 4.95 ...
+ $ Income     : Factor w/ 4 levels &quot;High (Above 50,000)&quot;,..: 2 4 3 1 3 3 1 4 2 3 ...
+ $ Hometown   : Factor w/ 2 levels &quot;City&quot;,&quot;Village&quot;: 2 1 2 1 2 2 2 1 1 1 ...
+ $ Computer   : num [1:493] 3 3 3 5 3 3 4 3 4 3 ...
+ $ Preparation: Factor w/ 3 levels &quot;0-1 Hour&quot;,&quot;2-3 Hours&quot;,..: 3 1 1 3 1 1 1 2 1 1 ...
+ $ Gaming     : Factor w/ 3 levels &quot;0-1 Hour&quot;,&quot;2-3 Hours&quot;,..: 1 1 3 3 2 3 3 3 3 3 ...
+ $ Attendance : Factor w/ 4 levels &quot;40%-59%&quot;,&quot;60%-79%&quot;,..: 3 3 3 3 3 4 2 3 4 4 ...
+ $ Job        : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+ $ English    : num [1:493] 3 3 4 5 3 4 2 4 3 4 ...
+ $ Extra      : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 2 1 1 2 2 1 ...
+ $ Semester   : Ord.factor w/ 12 levels &quot;1th&quot;&lt;&quot;2th&quot;&lt;&quot;3th&quot;&lt;..: 6 7 NA 4 4 NA NA 11 5 NA ...
+ $ Last       : num [1:493] 3.22 3.47 4 3.8 3.94 ...
+ $ Overall    : num [1:493] 3.35 3.47 3.72 3.75 3.94 ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVjM1Z0YldGeWVTaGtaaWxjYmx4dVlHQmdJbjA9IC0tPlxuXG5gYGByXG5zdW1tYXJ5KGRmKVxuXG5gYGBcblxuPCEtLSBybmItc291cmNlLWVuZCAtLT5cbiJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShkZilcblxuYGBgIn0= -->
+<pre class="r"><code>summary(df)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGVwYXJ0bWVudCAgICAgR2VuZGVyICAgICAgICAgSFNDICAgICAgICAgICAgIFNTQyAgICAgICBcbiBDb21wdXRlciBTY2llbmNlIEFuZCBFbmdpbmVlcmluZyAgICAgICAgICAgOjQ0MyAgIEZlbWFsZToxNjUgICBNaW4uICAgOjIuMTcwICAgTWluLiAgIDozLjAwMCAgXG4gRW5nbGlzaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDogMTQgICBNYWxlICA6MzI4ICAgMXN0IFF1LjozLjgzMCAgIDFzdCBRdS46NC42ODAgIFxuIEpvdXJuYWxpc20sIENvbW11bmljYXRpb24gQW5kIE1lZGlhIFN0dWRpZXM6IDEzICAgICAgICAgICAgICAgIE1lZGlhbiA6NC4xNzAgICBNZWRpYW4gOjQuOTQwICBcbiBQb2xpdGljYWwgU2NpZW5jZSAgICAgICAgICAgICAgICAgICAgICAgICAgOiAgNiAgICAgICAgICAgICAgICBNZWFuICAgOjQuMTU3ICAgTWVhbiAgIDo0Ljc2OCAgXG4gQnVzaW5lc3MgQWRtaW5pc3RyYXRpb24gICAgICAgICAgICAgICAgICAgIDogIDUgICAgICAgICAgICAgICAgM3JkIFF1Ljo0LjUwMCAgIDNyZCBRdS46NS4wMDAgIFxuIEVjb25vbWljcyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA6ICA0ICAgICAgICAgICAgICAgIE1heC4gICA6NS4wMDAgICBNYXguICAgOjUuMDAwICBcbiAoT3RoZXIpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgOiAgOCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgIEluY29tZSAgICAgICBIb21ldG93biAgICAgIENvbXB1dGVyICAgICAgICAgICAgICAgIFByZXBhcmF0aW9uICAgICAgICAgICAgICAgIEdhbWluZyAgIFxuIExvdyAoQmVsb3cgMTUsMDAwKSAgICAgICAgICA6IDc0ICAgQ2l0eSAgIDoyMTMgICBNaW4uICAgOjEuMDAwICAgMC0xIEhvdXIgICAgICAgICA6MjE4ICAgMC0xIEhvdXIgICAgICAgICA6IDUwICBcbiBMb3dlciBNaWRkbGUgKDE1LDAwMC0zMCwwMDApOjE4MCAgIFZpbGxhZ2U6MjgwICAgMXN0IFF1LjozLjAwMCAgIDItMyBIb3VycyAgICAgICAgOjIyOCAgIDItMyBIb3VycyAgICAgICAgOjE0MSAgXG4gVXBwZXIgTWlkZGxlICgzMCwwMDAtNTAsMDAwKToxMTAgICAgICAgICAgICAgICAgIE1lZGlhbiA6My4wMDAgICBNb3JlIFRoYW4gMyBIb3VyczogNDcgICBNb3JlIFRoYW4gMyBIb3VyczozMDIgIFxuIEhpZ2ggKEFib3ZlIDUwLDAwMCkgICAgICAgICA6MTI5ICAgICAgICAgICAgICAgICBNZWFuICAgOjMuMzM5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgM3JkIFF1Ljo0LjAwMCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE1heC4gICA6NS4wMDAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgQXR0ZW5kYW5jZSAgIEpvYiAgICAgICAgIEVuZ2xpc2ggICAgIEV4dHJhICAgICAgICBTZW1lc3RlciAgICAgICAgTGFzdCAgICAgICAgICBPdmVyYWxsICAgICBcbiBCZWxvdyA0MCU6IDExICAgTm8gOjQ1OSAgIE1pbi4gICA6MS4wMCAgIE5vIDoyODggICAxMHRoICAgOiA1NyAgIE1pbi4gICA6MS4wMDAgICBNaW4uICAgOjEuMDAwICBcbiA0MCUtNTklICA6IDY4ICAgWWVzOiAzNCAgIDFzdCBRdS46My4wMCAgIFllczoyMDUgICA4dGggICAgOiA1NCAgIDFzdCBRdS46Mi44MTAgICAxc3QgUXUuOjIuODgwICBcbiA2MCUtNzklICA6MjE3ICAgICAgICAgICAgIE1lZGlhbiA6NC4wMCAgICAgICAgICAgICA1dGggICAgOiAzMyAgIE1lZGlhbiA6My4yNTAgICBNZWRpYW4gOjMuMjcwICBcbiA4MCUtMTAwJSA6MTk3ICAgICAgICAgICAgIE1lYW4gICA6My41NyAgICAgICAgICAgICA5dGggICAgOiAzMCAgIE1lYW4gICA6My4xNjQgICBNZWFuICAgOjMuMTg4ICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIDNyZCBRdS46NC4wMCAgICAgICAgICAgICA2dGggICAgOiAyOSAgIDNyZCBRdS46My42NzAgICAzcmQgUXUuOjMuNjgwICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIE1heC4gICA6NS4wMCAgICAgICAgICAgICAoT3RoZXIpOiA3MiAgIE1heC4gICA6NC4wMDAgICBNYXguICAgOjQuMDAwICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBOQSdzICAgOjIxOCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiJ9 -->
+<pre><code>                                       Department     Gender         HSC             SSC       
+ Computer Science And Engineering           :443   Female:165   Min.   :2.170   Min.   :3.000  
+ English                                    : 14   Male  :328   1st Qu.:3.830   1st Qu.:4.680  
+ Journalism, Communication And Media Studies: 13                Median :4.170   Median :4.940  
+ Political Science                          :  6                Mean   :4.157   Mean   :4.768  
+ Business Administration                    :  5                3rd Qu.:4.500   3rd Qu.:5.000  
+ Economics                                  :  4                Max.   :5.000   Max.   :5.000  
+ (Other)                                    :  8                                               
+                          Income       Hometown      Computer                Preparation                Gaming   
+ Low (Below 15,000)          : 74   City   :213   Min.   :1.000   0-1 Hour         :218   0-1 Hour         : 50  
+ Lower Middle (15,000-30,000):180   Village:280   1st Qu.:3.000   2-3 Hours        :228   2-3 Hours        :141  
+ Upper Middle (30,000-50,000):110                 Median :3.000   More Than 3 Hours: 47   More Than 3 Hours:302  
+ High (Above 50,000)         :129                 Mean   :3.339                                                  
+                                                  3rd Qu.:4.000                                                  
+                                                  Max.   :5.000                                                  
+                                                                                                                 
+     Attendance   Job         English     Extra        Semester        Last          Overall     
+ Below 40%: 11   No :459   Min.   :1.00   No :288   10th   : 57   Min.   :1.000   Min.   :1.000  
+ 40%-59%  : 68   Yes: 34   1st Qu.:3.00   Yes:205   8th    : 54   1st Qu.:2.810   1st Qu.:2.880  
+ 60%-79%  :217             Median :4.00             5th    : 33   Median :3.250   Median :3.270  
+ 80%-100% :197             Mean   :3.57             9th    : 30   Mean   :3.164   Mean   :3.188  
+                           3rd Qu.:4.00             6th    : 29   3rd Qu.:3.670   3rd Qu.:3.680  
+                           Max.   :5.00             (Other): 72   Max.   :4.000   Max.   :4.000  
+                                                    NA&#39;s   :218                                  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="section" class="section level3">
+<h3></h3>
+<!-- rnb-text-end -->
+</div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIk5vdGVCb29rIE1ldGt1YW4iDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIyBJbXBvcnQgZGF0YQ0KDQpgYGB7cn0NCmRmIDwtIEV4dGVuZGVkX0VtcGxveWVlX1BlcmZvcm1hbmNlX2FuZF9Qcm9kdWN0aXZpdHkNCmBgYA0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIk5vdGVCb29rIE1ldGt1YW4iDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIFN0dWRlbnQgUGVyZm9ybWFuY2UgTWV0cmljcyBEYXRhc2V0DQoNCiMjIyBJbXBvcnRpbmcgTGlicmFyeQ0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShsdWJyaWRhdGUpDQpsaWJyYXJ5KHNraW1yKQ0KbGlicmFyeShjb3JycGxvdCkNCmxpYnJhcnkoY2FyZXQpDQpsaWJyYXJ5KHJhbmRvbUZvcmVzdCkNCmBgYA0KDQojIyMgSW5pdGlhdGUgYSBkYXRhZnJhbWUNCg0KYGBge3J9DQpkZiA8LSBTdHVkZW50X1BlcmZvcm1hbmNlX01ldHJpY3NfRGF0YXNldA0KYGBgDQoNCiMjIyBEYXRhIEV4cGxvcmF0aW9uDQoNCmBgYHtyfQ0Kc3RyKGRmKQ0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyeShkZikNCmBgYA0KDQpgYGB7cn0NCmhlYWQoZGYpDQpgYGANCg0KYGBge3J9DQpkaW0oZGYpDQpgYGANCg0KYGBge3J9DQpzYXBwbHkoZGYsIGNsYXNzKQ0KYGBgDQoNCiMjIyBDaGFyIGRhdGEgcHJvY2Vzc2luZw0KDQpgYGB7cn0NCmNoYXJfZGF0YSA8LSBkZlsgLCBzYXBwbHkoZGYsIGlzLmNoYXJhY3RlcildDQpjaGFyX2NvbHMgPC0gbmFtZXMoZGYpW3NhcHBseShkZiwgaXMuY2hhcmFjdGVyKV0NCnByaW50KGNoYXJfY29scykNCmBgYA0KDQpEaWtldGFodWkgYmFod2EgRGVwYXJ0ZW1lbiwgR2VuZGVyLCBJbmNvbWUsIEhvbWV0b3duLCBQcmVwYXJhdGlvbiwgR2FtaW5nLCBBdHRlbmRhbmNlLCBKb2IsIEV4dHJhLCBTZW1lc3RlciBhZGFsYWgga2F0ZWdvcmlrDQoNCmBgYHtyfQ0KaGVhZChjaGFyX2RhdGEpDQpgYGANCg0KQ2VrIGtvbG9tIGRpc3RpbmN0DQoNCmBgYHtyfQ0Kc2FwcGx5KGNoYXJfZGF0YSwgdW5pcXVlKQ0KYGBgDQoNClN0YW5kYXJpc2FzaQ0KDQpgYGB7cn0NCmxpYnJhcnkoZHBseXIpDQpsaWJyYXJ5KHN0cmluZ3IpDQpkZiA8LSBkZiAlPiUNCiAgbXV0YXRlKGFjcm9zcyh3aGVyZShpcy5jaGFyYWN0ZXIpLCB+c3RyX3RyaW0oLikpKSAlPiUNCiAgbXV0YXRlKGFjcm9zcyh3aGVyZShpcy5jaGFyYWN0ZXIpLCB+c3RyX3RvX3RpdGxlKC4pKSkNCmBgYA0KDQpLb252ZXJzaQ0KDQpgYGB7cn0NCmZhY3Rvcl9jb2xzIDwtIGMoIkRlcGFydG1lbnQiLCAiR2VuZGVyIiwgIkluY29tZSIsICJIb21ldG93biIsICJQcmVwYXJhdGlvbiIsICJHYW1pbmciLCAiQXR0ZW5kYW5jZSIsICJKb2IiLCAiRXh0cmEiLCAiU2VtZXN0ZXIiKQ0KYGBgDQoNCmBgYHtyfQ0KZGZbZmFjdG9yX2NvbHNdIDwtIGxhcHBseShkZltmYWN0b3JfY29sc10sIGFzLmZhY3RvcikNCmBgYA0KDQpSZW9yZGVyaW5nDQoNCmBgYHtyfQ0KIyBJbmNvbWU6IExvdyA8IExvd2VyIE1pZGRsZSA8IFVwcGVyIE1pZGRsZSA8IEhpZ2gNCmRmJEluY29tZSA8LSBmYWN0b3IoZGYkSW5jb21lLCBsZXZlbHMgPSBjKA0KICAiTG93IChCZWxvdyAxNSwwMDApIiwNCiAgIkxvd2VyIE1pZGRsZSAoMTUsMDAwLTMwLDAwMCkiLA0KICAiVXBwZXIgTWlkZGxlICgzMCwwMDAtNTAsMDAwKSIsDQogICJIaWdoIChBYm92ZSA1MCwwMDApIg0KKSwgb3JkZXJlZCA9IFRSVUUpDQoNCiMgUHJlcGFyYXRpb24gYW5kIEdhbWluZyB0aW1lDQpkZiRQcmVwYXJhdGlvbiA8LSBmYWN0b3IoZGYkUHJlcGFyYXRpb24sIGxldmVscyA9IGMoDQogICIwLTEgSG91ciIsICIyLTMgSG91cnMiLCAiTW9yZSBUaGFuIDMgSG91cnMiDQopLCBvcmRlcmVkID0gVFJVRSkNCg0KZGYkR2FtaW5nIDwtIGZhY3RvcihkZiRHYW1pbmcsIGxldmVscyA9IGMoDQogICIwLTEgSG91ciIsICIyLTMgSG91cnMiLCAiTW9yZSBUaGFuIDMgSG91cnMiDQopLCBvcmRlcmVkID0gVFJVRSkNCg0KIyBBdHRlbmRhbmNlDQpkZiRBdHRlbmRhbmNlIDwtIGZhY3RvcihkZiRBdHRlbmRhbmNlLCBsZXZlbHMgPSBjKA0KICAiQmVsb3cgNDAlIiwgIjQwJS01OSUiLCAiNjAlLTc5JSIsICI4MCUtMTAwJSINCiksIG9yZGVyZWQgPSBUUlVFKQ0KDQojIFNlbWVzdGVyIChjdXN0b20gc29ydCBieSBudW1iZXIpDQpkZiRTZW1lc3RlciA8LSBmYWN0b3IoZGYkU2VtZXN0ZXIsIGxldmVscyA9IHBhc3RlMCgxOjEyLCAidGgiKSwgb3JkZXJlZCA9IFRSVUUpDQpgYGANCg0KQ2VrIGRhdGEgeWFuZyBzdWRhaCBkaWJlcnNpaGthbg0KDQpgYGB7cn0NCnN0cihkZikNCmBgYA0KDQpgYGB7cn0NCnN1bW1hcnkoZGYpDQpgYGANCg0KIyMjIA0K</div>
 
 
 
