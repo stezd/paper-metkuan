@@ -99,7 +99,7 @@ df_final %>%
 # PCA untuk visualisasi 
 pca <- prcomp(df_scaled)
 library(factoextra)
-
+pca
 fviz_pca_biplot(pca, 
                 label = "var",        # tampilkan label variabel
                 habillage = kmeans_result$cluster,  # warna berdasarkan cluster
@@ -108,6 +108,45 @@ fviz_pca_biplot(pca,
                 repel = TRUE,         # supaya label variabel tidak bertumpuk
                 ggtheme = theme_minimal())
 
+#Fitur akademik
+fviz_pca_biplot(pca_res,
+                label = "var",
+                select.var = list(name = c("HSC", "SSC", "Computer", "English", "Last", "Overall")),
+                geom = "point",
+                habillage = as.factor(kmeans_result$cluster),
+                addEllipses = TRUE,
+                palette = "jco",
+                repel = TRUE,
+                ggtheme = theme_minimal()) +
+    ggtitle("PCA Biplot: Fitur Akademik")
+
+# perilaku dan demografi
+fviz_pca_biplot(pca_res,
+                label = "var",
+                select.var = list(name = c("Preparation_num", "Gaming_num", "Attendance_num",
+                                           "Semester_num", "Income_num", "Job_num", "Extra_num",
+                                           "Hometown_num", "Gender_num")),
+                geom = "point",
+                habillage = as.factor(kmeans_result$cluster),
+                addEllipses = TRUE,
+                palette = "jco",
+                repel = TRUE,
+                ggtheme = theme_minimal()) +
+    ggtitle("PCA Biplot: Perilaku & Demografi")
+
+# department
+dept_vars <- rownames(pca_res$rotation)[grepl("^Department", rownames(pca_res$rotation))]
+
+fviz_pca_biplot(pca_res,
+                label = "var",
+                select.ind = list(name = rownames(pca_res$x)[sample(1:nrow(pca_res$x), 100)]),
+                geom = "point",
+                habillage = as.factor(kmeans_result$cluster),
+                addEllipses = TRUE,
+                palette = "jco",
+                repel = TRUE,
+                ggtheme = theme_minimal()) +
+    ggtitle("PCA Biplot: Variabel Departemen")
 # Silhouette analysis 
 sil <- silhouette(kmeans_result$cluster, dist(df_scaled))
 summary(sil)
@@ -141,36 +180,3 @@ fviz_pca_biplot(pca_res,
 # Kontribusi fitur pada PC1 dan PC2
 fviz_contrib(pca_res, choice = "var", axes = 1, top = 10)  # PC1
 fviz_contrib(pca_res, choice = "var", axes = 2, top = 10)  # PC2
-
-
-
-# DONT NEED TO DO THIS LMAO
-# Clustering ulang dengan fitur terpilih berdasarkan PCA 
-selected_features <- df_ready_full[, c("Last", "Overall", "Attendance_num", "Gaming_num", "Preparation_num", "Extra_num", "DepartmentComputer Science and Engineering", "SSC", "DepartmentJournalism, Communication and Media Studies", "HSC")]
-
-# Skala fitur terpilih 
-selected_scaled <- scale(selected_features)
-
-# Tentukan jumlah cluster (Elbow Method) 
-set.seed(123)
-fviz_nbclust(selected_scaled, kmeans, method = "wss") +
-    geom_vline(xintercept = 3, linetype = 2) +
-    labs(subtitle = "Elbow Method - Fitur Terpilih")
-
-# Jalankan K-Means dengan k=2 (contoh)
-set.seed(123)
-kmeans_selected <- kmeans(selected_scaled, centers = 3, nstart = 25)
-
-# Tambahkan hasil cluster fitur terpilih 
-df_final_selected <- df_encoded %>%
-    mutate(Cluster_Selected = kmeans_selected$cluster)
-
-# Visualisasi cluster dengan PCA
-pca_selected <- prcomp(selected_scaled)
-plot(pca_selected$x[, 1:2], col = kmeans_selected$cluster, pch = 19,
-     xlab = "PC1", ylab = "PC2", main = "Clustering dengan Fitur Terpilih")
-
-# Visualisasi silhouette 
-sil_selected <- silhouette(kmeans_selected$cluster, dist(selected_scaled))
-fviz_silhouette(sil_selected)
-
